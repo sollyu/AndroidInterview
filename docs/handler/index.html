@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>AndroidHandler知识点总结 - 安卓面试复习宝典</title><meta name="Description" content="Hugo 和 LoveIt 中的 Emoji 的用法指南."><meta property="og:title" content="AndroidHandler知识点总结" />
+<meta property="og:description" content="Hugo 和 LoveIt 中的 Emoji 的用法指南." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/handler/" /><meta property="og:image" content="https://example.com/handler/featured-image.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-11-01T16:16:31+08:00" />
+<meta property="article:modified_time" content="2021-11-01T16:16:31+08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://example.com/handler/featured-image.png"/>
+<meta name="twitter:title" content="AndroidHandler知识点总结"/>
+<meta name="twitter:description" content="Hugo 和 LoveIt 中的 Emoji 的用法指南."/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://example.com/handler/" /><link rel="prev" href="https://example.com/view/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.89b621a9bf174f6453c265bdcf5f2ffe8feb8bf3555ce4432c220058d367643a9e0aae3b0c211fc83b05a5bdc47d2ce47d74361d8a2becb6f76a7df35e3c3def.css" integrity="sha512-ibYhqb8XT2RTwmW9z18v/o/ri/NVXORDLCIAWNNnZDqeCq47DCEfyDsFpb3EfSzkfXQ2HYor7Lb3an3zXjw97w=="><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "AndroidHandler知识点总结",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/example.com\/handler\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "https:\/\/example.com\/handler\/featured-image.png",
+                            "width":  3250 ,
+                            "height":  968 
+                        }],"genre": "posts","keywords": "安卓, Handler","wordcount":  2801 ,
+        "url": "https:\/\/example.com\/handler\/","datePublished": "2021-11-01T16:16:31+08:00","dateModified": "2021-11-01T16:16:31+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "Sollyu"},"author": {
+                "@type": "Person",
+                "name": "Sollyu"
+            },"description": "Hugo 和 LoveIt 中的 Emoji 的用法指南."
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="安卓面试复习宝典"><span class="header-title-pre"><i class='fab fa-android fa-fw' style='color:green'></i></span>宝典</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="https://github.com/sollyu/AndroidInterview" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="安卓面试复习宝典"><span class="header-title-pre"><i class='fab fa-android fa-fw' style='color:green'></i></span>宝典</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="https://github.com/sollyu/AndroidInterview" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">AndroidHandler知识点总结</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://github.com/sollyu" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Sollyu</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/%E5%AE%89%E5%8D%93/"><i class="far fa-folder fa-fw"></i>安卓</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-11-01">2021-11-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2801 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/handler/featured-image.png"
+        data-srcset="/handler/featured-image.png, /handler/featured-image.png 1.5x, /handler/featured-image.png 2x"
+        data-sizes="auto"
+        alt="/handler/featured-image.png"
+        title="Hugo 和 LoveIt 中的 Emoji 的用法指南." /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#优质文章">优质文章</a></li>
+    <li><a href="#常见问题">常见问题</a></li>
+    <li><a href="#视频资料">视频资料</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="优质文章">优质文章</h2>
+<p><a href="https://blog.csdn.net/carson_ho/article/details/80175876" target="_blank" rel="noopener noreffer">👍 Android异步通信：图文详解Handler工作原理_Carson带你学Android-CSDN博客</a></p>
+<p><a href="https://www.cnblogs.com/renhui/p/12857876.html" target="_blank" rel="noopener noreffer">Android Handler 机制（一）：Handler 运行机制完整梳理 - 灰色飘零 - 博客园</a></p>
+<p><a href="https://blog.csdn.net/lovelease/article/details/81988696" target="_blank" rel="noopener noreffer">Android Handler机制 - MessageQueue如何处理消息_未子涵的博客-CSDN博客</a></p>
+<p><a href="https://segmentfault.com/a/1190000002982318" target="_blank" rel="noopener noreffer">Android应用程序消息处理机制 - SegmentFault 思否</a></p>
+<h2 id="常见问题">常见问题</h2>
+<div class="details admonition tip open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-lightbulb fa-fw"></i>提示<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">下面是一些常见的问题，可以先尝试的先自我回答一下，点击题目即可查看答案。</div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>主线程为什么不用初始化Looper？<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>因为应用在启动的过程中就已经初始化主线程Looper了。</p>
+<p>每个java应用程序都是有一个main方法入口，Android是基于Java的程序也不例外。Android程序的入口在ActivityThread的main方法中：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="cm">/**
+</span><span class="cm"> * main方法中先初始化主线程Looper，
+</span><span class="cm"> * 新建ActivityThread对象，然后再启动Looper，这样主线程的Looper在程序启动的时候就跑起来了。
+</span><span class="cm"> * 我们不需要再去初始化主线程Looper。
+</span><span class="cm"> */</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="o">...</span>
+    <span class="c1">// 初始化主线程Looper
+</span><span class="c1"></span>    <span class="n">Looper</span><span class="o">.</span><span class="na">prepareMainLooper</span><span class="o">();</span>
+    <span class="o">...</span>
+    <span class="c1">// 新建一个ActivityThread对象
+</span><span class="c1"></span>    <span class="n">ActivityThread</span> <span class="n">thread</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ActivityThread</span><span class="o">();</span>
+    <span class="n">thread</span><span class="o">.</span><span class="na">attach</span><span class="o">(</span><span class="kc">false</span><span class="o">,</span> <span class="n">startSeq</span><span class="o">);</span>
+
+    <span class="c1">// 获取ActivityThread的Handler，也是他的内部类H
+</span><span class="c1"></span>    <span class="k">if</span> <span class="o">(</span><span class="n">sMainThreadHandler</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">sMainThreadHandler</span> <span class="o">=</span> <span class="n">thread</span><span class="o">.</span><span class="na">getHandler</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="o">...</span>
+    <span class="n">Looper</span><span class="o">.</span><span class="na">loop</span><span class="o">();</span>
+    <span class="c1">// 如果loop方法结束则抛出异常，程序结束
+</span><span class="c1"></span>    <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span><span class="s">&#34;Main thread loop unexpectedly exited&#34;</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div></div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>为什么主线程的Looper是一个死循环，但是却不会ANR？<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>因为Android 的是由事件驱动的，looper.loop() <strong>不断地接收事件、处理事件</strong>，每一个点击触摸或者说Activity的生命周期都是运行在 Looper.loop() 的控制之下，如果它停止了，应用也就停止了。只能是某一个消息或者说对消息的处理阻塞了 Looper.loop()，而不是 Looper.loop() 阻塞它。</p>
+<p><a href="https://blog.csdn.net/u013626215/article/details/88796172" target="_blank" rel="noopener noreffer">主线程中的Looper.loop()死循环为什么不会导致ANR?_威威的专栏-CSDN博客</a></p>
+</div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>Handler如何保证MessageQueue并发访问安全？<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>我们可以发现MessageQueue其实是“生产者-消费者”模型，Handler不断地放入消息，Looper不断地取出，这就涉及到死锁问题。</p>
+<p>如果Looper拿到锁，但是队列中没有消息，就会一直等待，而Handler需要把消息放进去，锁却被Looper拿着无法入队，这就造成了死锁。</p>
+<p>Handler机制的解决方法是循环加锁。在MessageQueue的next方法中：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="n">Message</span> <span class="nf">next</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">...</span>
+    <span class="k">for</span> <span class="o">(;;)</span> <span class="o">{</span>
+    <span class="o">...</span>
+        <span class="n">nativePollOnce</span><span class="o">(</span><span class="n">ptr</span><span class="o">,</span> <span class="n">nextPollTimeoutMillis</span><span class="o">);</span>
+        <span class="kd">synchronized</span> <span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
+            <span class="o">...</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div></div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>Handler是如何切换线程的？<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">使用不同线程的Looper处理消息。</div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>Handler的阻塞唤醒机制是怎么回事？<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>Handler的阻塞唤醒机制是基于Linux的阻塞唤醒机制，主要的唤醒机制是epoll_wait函数。</p>
+<p>这个机制也是类似于handler机制的模式。在本地创建一个文件描述符，然后需要等待的一方则监听这个文件描述符，唤醒的一方只需要修改这个文件，那么等待的一方就会收到文件从而打破唤醒。和Looper监听MessageQueue，Handler添加message是比较类似的。</p>
+<p><a href="https://juejin.cn/post/6896495861954510861" target="_blank" rel="noopener noreffer">源码茶舍之没有epoll就没有Handler - 掘金</a></p>
+</div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>能不能让一个Message加急被处理？/ 什么是Handler同步屏障？<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>可以 / 一种使得异步消息可以被更快处理的机制</p>
+<p>注意，同步屏障不会自动移除，使用完成之后需要手动进行移除，不然会造成同步消息无法被处理。</p>
+<p>消息屏障启动、关闭的方法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">// 反射插入消息屏障
+</span><span class="c1"></span><span class="n">MessageQueue</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">mHandler</span><span class="o">.</span><span class="na">getLooper</span><span class="o">().</span><span class="na">getQueue</span><span class="o">();</span>
+<span class="n">Method</span> <span class="n">method</span> <span class="o">=</span> <span class="n">MessageQueue</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getDeclaredMethod</span><span class="o">(</span><span class="s">&#34;postSyncBarrier&#34;</span><span class="o">);</span>
+<span class="n">method</span><span class="o">.</span><span class="na">setAccessible</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+<span class="n">token</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span><span class="n">method</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">queue</span><span class="o">);</span>
+
+<span class="c1">// 反射移除消息屏障
+</span><span class="c1"></span><span class="n">MessageQueue</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">mHandler</span><span class="o">.</span><span class="na">getLooper</span><span class="o">().</span><span class="na">getQueue</span><span class="o">();</span>
+<span class="n">Method</span> <span class="n">method</span> <span class="o">=</span> <span class="n">MessageQueue</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getDeclaredMethod</span><span class="o">(</span><span class="s">&#34;removeSyncBarrier&#34;</span><span class="o">,</span> <span class="kt">int</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+<span class="n">method</span><span class="o">.</span><span class="na">setAccessible</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+<span class="n">method</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">queue</span><span class="o">,</span> <span class="n">token</span><span class="o">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><a href="https://blog.csdn.net/my_csdnboke/article/details/109531168" target="_blank" rel="noopener noreffer">Handler之消息屏障你应该知道的_天亮了的博客-CSDN博客_handler消息屏障</a></p>
+</div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>一个Thread可以有几个Looper？几个Handler？<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">一个线程只能有一个Looper，可以有多个Handler，
+在线程中我们需要调用Looper.perpare,
+他会创建一个Looper并且将Looper保存在ThreadLocal中，
+每个线程都有一个LocalThreadMap，会将Looper保存在对应线程中的LocalThreadMap，
+key为ThreadLocal，value为Looper</div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>Message可以如何创建？哪种效果更好，为什么<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">// 最常用的方式，通过Message的无参构造函数创建一个Message 对象
+</span><span class="c1"></span><span class="n">Message</span> <span class="n">message</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Message</span><span class="o">();</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">// Message.obtain()及其系列的重载方法，我们先看看他的无参方法的源码实现
+</span><span class="c1"></span><span class="n">Message</span> <span class="n">message</span> <span class="o">=</span> <span class="n">Message</span><span class="o">.</span><span class="na">obtain</span><span class="o">();</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="n">Message</span> <span class="nf">obtain</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">synchronized</span> <span class="o">(</span><span class="n">sPoolSync</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">sPool</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">//直接从本地获取一个message对象
+</span><span class="c1"></span>            <span class="n">Message</span> <span class="n">m</span> <span class="o">=</span> <span class="n">sPool</span><span class="o">;</span>
+            <span class="n">sPool</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+            <span class="n">m</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="n">m</span><span class="o">.</span><span class="na">flags</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="c1">// clear in-use flag
+</span><span class="c1"></span>            <span class="c1">//没调用一次该方法，就将新的message对象加入Message池子，sPoolSize就减少一个
+</span><span class="c1"></span>            <span class="n">sPoolSize</span><span class="o">--;</span>
+            <span class="k">return</span> <span class="n">m</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="n">Message</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="c1">// new Handler().obtainMessage()及其系列的重载方法，我们先看看他的无参方法的源码实现：
+</span><span class="c1"></span><span class="n">Message</span> <span class="n">message</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Handler</span><span class="o">().</span><span class="na">obtainMessage</span><span class="o">();</span>
+
+<span class="kd">public</span> <span class="kd">final</span> <span class="n">Message</span> <span class="nf">obtainMessage</span><span class="o">(){</span>
+    <span class="k">return</span> <span class="n">Message</span><span class="o">.</span><span class="na">obtain</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+<span class="o">}</span>
+<span class="c1">// Message.obtain(this)方法具体 如下：
+</span><span class="c1"></span><span class="kd">public</span> <span class="kd">static</span> <span class="n">Message</span> <span class="nf">obtain</span><span class="o">(</span><span class="n">Handler</span> <span class="n">h</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//方法内部最终还是调用了obtain()方法，又回到,了方式2，这跟方式2创建Message对象是一样的，本质上没有区别。
+</span><span class="c1"></span>    <span class="n">Message</span> <span class="n">m</span> <span class="o">=</span> <span class="n">obtain</span><span class="o">();</span>
+    <span class="n">m</span><span class="o">.</span><span class="na">target</span> <span class="o">=</span> <span class="n">h</span><span class="o">;</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">;</span>
+<span class="o">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div></div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>Handler是如何实现延时消息的？<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><ul>
+<li>
+<p>消息队列是按消息触发时间排序的</p>
+</li>
+<li>
+<p><strong>设置<code>epoll_wait</code>的超时时间，使其在特定时间唤醒</strong>，这里我们先计算当前时间和触发时间有多长，这个差值作为 epoll_wait的超时时间，epoll_wait超时的时候就是消息触发的时候了，就不会继续堵塞，继续往下执行，这个线程就会被唤醒，去执行消息处理</p>
+</li>
+</ul>
+<p><a href="https://blog.csdn.net/qq_38366777/article/details/108942036" target="_blank" rel="noopener noreffer">👍 深入理解Handler(三) &mdash; Handler发送延时消息实现_soso密斯密斯的博客-CSDN博客</a></p>
+<p><a href="https://www.jianshu.com/p/68083d432b3f" target="_blank" rel="noopener noreffer">Handler是如何实现延时消息的？ - 简书</a></p>
+</div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>Handler发送消息的 Delay 可靠吗？<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>答案是不靠谱的，引起不靠谱的原因有如下</p>
+<ul>
+<li>发送的消息太多,Looper负载越高，任务越容易积压，进而导致卡顿</li>
+<li>消息队列有一些消息处理非常耗时，导致后面的消息延时处理</li>
+<li>大于Handler Looper的周期时基本可靠（例如主线程&gt;50ms）</li>
+<li>对于时间精确度要求较高，不要用handler的delay作为即时的依据</li>
+</ul>
+</div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>hread、Handler和HandlerThread关系何在？<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>Handler：在android中负责发送和处理消息，通过它可以实现其他支线线程与主线程之间的消息通讯。</p>
+<p>Thread：Java进程中执行运算的最小单位，亦即执行处理机调度的基本单位。某一进程中一路单独运行的程序。</p>
+<p>HandlerThread：一个继承自Thread的类HandlerThread，Android中没有对Java中的Thread进行任何封装，而是提供了一个继承自Thread的类HandlerThread类，这个类对Java的Thread做了很多便利的封装。</p>
+</div>
+        </div>
+    </div>
+<h2 id="视频资料">视频资料</h2>
+<div class="bilibili"><iframe src="//player.bilibili.com/player.html?bvid=BV1fv411B7bH&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe></div>
+
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-11-01</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/handler/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/%E5%AE%89%E5%8D%93/">安卓</a>,&nbsp;<a href="/tags/handler/">Handler</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/view/" class="prev" rel="prev" title="AndroidView绘制流程知识点总结"><i class="fas fa-angle-left fa-fw"></i>AndroidView绘制流程知识点总结</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.88.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Sollyu</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.69ac882c686e101963f9cd3dc6167cee800004e4e9f40dae6f6fbeb3b03fb81ead782f98cc6e6eeec42b70a1b7047c7902e8f0ba3171660e2c2dc59d62965c7a.js" integrity="sha512-aayILGhuEBlj&#43;c09xhZ87oAABOTp9A2ub2&#43;&#43;s7A/uB6teC&#43;YzG5u7sQrcKG3BHx5AujwujFxZg4sLcWdYpZceg=="></script></body>
+</html>
