@@ -335,7 +335,10 @@ enableEmoji = true
     # whether to use object-fit-images to be compatible with older browsers
     # 是否使用 object-fit-images 来兼容旧式浏览器
     objectFit = false
-
+  [params.pangu]
+    enable = true
+    script = "https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js"
+  
 # Markup related configuration in Hugo
 # Hugo 解析文档的配置
 [markup]
