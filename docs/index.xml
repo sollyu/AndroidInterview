@@ -8,17 +8,17 @@
             <atom:link href="/AndroidInterview/index.xml" rel="self" type="application/rss+xml" />
         <item>
     <title>AndroidHandler知识点总结</title>
-    <link>/AndroidInterview/handler.html</link>
+    <link>/AndroidInterview/handler/</link>
     <pubDate>Mon, 01 Nov 2021 16:16:31 &#43;0800</pubDate>
     <author>作者</author>
-    <guid>/AndroidInterview/handler.html</guid>
+    <guid>/AndroidInterview/handler/</guid>
     <description><![CDATA[优质文章 👍 Android异步通信：图文详解Handler工作原理_Carson带你学Android-CSDN博客 Android Handler 机制（一）：Handle]]></description>
 </item><item>
     <title>AndroidView绘制流程知识点总结</title>
-    <link>/AndroidInterview/view.html</link>
+    <link>/AndroidInterview/view/</link>
     <pubDate>Mon, 01 Nov 2021 16:16:31 &#43;0800</pubDate>
     <author>作者</author>
-    <guid>/AndroidInterview/view.html</guid>
+    <guid>/AndroidInterview/view/</guid>
     <description><![CDATA[优质文章 Android View的绘制流程知识点总结 - 知乎 Android View的绘制流程 - 简书 Android View绘制三大流程探索及常见问题_梦工厂-CSDN博客 Android View知]]></description>
 </item></channel>
 </rss>

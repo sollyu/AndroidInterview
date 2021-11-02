@@ -8,7 +8,7 @@ enableGitInfo = false
 enableEmoji = true
 
 # relativeURLs = true
-uglyURLs = true
+# uglyURLs = true
 
 [languages]
   [languages.zh-cn]
