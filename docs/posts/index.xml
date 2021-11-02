@@ -4,7 +4,21 @@
         <link>/AndroidInterview/posts/</link>
         <description>所有文章 | 安卓面试复习宝典</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>sollyu@qq.com (Sollyu)</managingEditor>
-            <webMaster>sollyu@qq.com (Sollyu)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Tue, 02 Nov 2021 11:09:32 &#43;0800</lastBuildDate><atom:link href="/AndroidInterview/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>sollyu@qq.com (Sollyu)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Tue, 02 Nov 2021 15:25:07 &#43;0800</lastBuildDate><atom:link href="/AndroidInterview/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>LruCache 知识点总结</title>
+    <link>/AndroidInterview/lru_cache/</link>
+    <pubDate>Tue, 02 Nov 2021 15:25:07 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>/AndroidInterview/lru_cache/</guid>
+    <description><![CDATA[优质文章 从 LRU Cache 带你看面试的本质 - 码农田小齐 - 博客园 👍 Glide都在用的LruCache，你学会了吗？ - 掘金 常见问题 提示 下面是一些常见的问题，]]></description>
+</item><item>
+    <title>SparseArray 知识点总结</title>
+    <link>/AndroidInterview/sparse_array/</link>
+    <pubDate>Tue, 02 Nov 2021 14:46:24 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>/AndroidInterview/sparse_array/</guid>
+    <description><![CDATA[优质文章 这一次，彻底搞懂SparseArray实现原理 - zhangpan&rsquo;s blog 👍 SparseArray 的使用及实现原理 - 掘金 SparseArray详解及源码简析 - 掘金 Androi]]></description>
+</item><item>
     <title>Android Binder 知识点总结</title>
     <link>/AndroidInterview/binder/</link>
     <pubDate>Tue, 02 Nov 2021 11:09:32 &#43;0800</pubDate>
@@ -17,7 +31,7 @@
     <pubDate>Mon, 01 Nov 2021 16:16:31 &#43;0800</pubDate>
     <author>作者</author>
     <guid>/AndroidInterview/handler/</guid>
-    <description><![CDATA[优质文章 👍 Android异步通信：图文详解Handler工作原理_Carson带你学Android-CSDN博客 Android Handler 机制（一）：Handle]]></description>
+    <description><![CDATA[优质文章 Android异步通信：图文详解Handler工作原理_Carson带你学Android-CSDN博客 👍 Android Handler 机制（一）：Handle]]></description>
 </item><item>
     <title>Android View 绘制流程知识点总结</title>
     <link>/AndroidInterview/view/</link>

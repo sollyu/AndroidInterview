@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>SparseArray 知识点总结 - 安卓面试复习宝典</title><meta name="Description" content="关于 LoveIt 主题"><meta property="og:title" content="SparseArray 知识点总结" />
+<meta property="og:description" content="优质文章 这一次，彻底搞懂SparseArray实现原理 - zhangpan&rsquo;s blog 👍 SparseArray 的使用及实现原理 - 掘金 SparseArray详解及源码简析 - 掘金 Androi" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/AndroidInterview/sparse_array/" /><meta property="og:image" content="/AndroidInterview/sparse_array/featured-image.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-11-02T14:46:24+08:00" />
+<meta property="article:modified_time" content="2021-11-02T14:46:24+08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="/AndroidInterview/sparse_array/featured-image.png"/>
+<meta name="twitter:title" content="SparseArray 知识点总结"/>
+<meta name="twitter:description" content="优质文章 这一次，彻底搞懂SparseArray实现原理 - zhangpan&rsquo;s blog 👍 SparseArray 的使用及实现原理 - 掘金 SparseArray详解及源码简析 - 掘金 Androi"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="/AndroidInterview/sparse_array/" /><link rel="prev" href="/AndroidInterview/binder/" /><link rel="next" href="/AndroidInterview/lru_cache/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/AndroidInterview/css/style.min.89b621a9bf174f6453c265bdcf5f2ffe8feb8bf3555ce4432c220058d367643a9e0aae3b0c211fc83b05a5bdc47d2ce47d74361d8a2becb6f76a7df35e3c3def.css" integrity="sha512-ibYhqb8XT2RTwmW9z18v/o/ri/NVXORDLCIAWNNnZDqeCq47DCEfyDsFpb3EfSzkfXQ2HYor7Lb3an3zXjw97w=="><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "SparseArray 知识点总结",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "\/AndroidInterview\/sparse_array\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "\/AndroidInterview\/sparse_array\/featured-image.png",
+                            "width":  812 ,
+                            "height":  243 
+                        }],"genre": "posts","keywords": "安卓, SparseArray","wordcount":  2128 ,
+        "url": "\/AndroidInterview\/sparse_array\/","datePublished": "2021-11-02T14:46:24+08:00","dateModified": "2021-11-02T14:46:24+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "Sollyu"},"author": {
+                "@type": "Person",
+                "name": "Sollyu"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/AndroidInterview/" title="安卓面试复习宝典"><span class="header-title-pre"><i class='fab fa-android fa-fw' style='color:green'></i></span>宝典</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/AndroidInterview/posts/"> 所有文章 </a><a class="menu-item" href="/AndroidInterview/tags/"> 标签 </a><a class="menu-item" href="/AndroidInterview/categories/"> 分类 </a><a class="menu-item" href="https://github.com/sollyu/AndroidInterview" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/AndroidInterview/" title="安卓面试复习宝典"><span class="header-title-pre"><i class='fab fa-android fa-fw' style='color:green'></i></span>宝典</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/AndroidInterview/posts/" title="">所有文章</a><a class="menu-item" href="/AndroidInterview/tags/" title="">标签</a><a class="menu-item" href="/AndroidInterview/categories/" title="">分类</a><a class="menu-item" href="https://github.com/sollyu/AndroidInterview" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">SparseArray 知识点总结</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://github.com/sollyu" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Sollyu</a></span>&nbsp;<span class="post-category">收录于 <a href="/AndroidInterview/categories/%E5%AE%89%E5%8D%93/"><i class="far fa-folder fa-fw"></i>安卓</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-11-02">2021-11-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2128 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;</div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/AndroidInterview/svg/loading.min.svg"
+        data-src="/AndroidInterview/sparse_array/featured-image.png"
+        data-srcset="/AndroidInterview/sparse_array/featured-image.png, /AndroidInterview/sparse_array/featured-image.png 1.5x, /AndroidInterview/sparse_array/featured-image.png 2x"
+        data-sizes="auto"
+        alt="/AndroidInterview/sparse_array/featured-image.png"
+        title="/AndroidInterview/sparse_array/featured-image.png" /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#优质文章">优质文章</a></li>
+    <li><a href="#常见问题">常见问题</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="优质文章">优质文章</h2>
+<p><a href="https://zhpanvip.gitee.io/2021/06/13/38-sparsearray/" target="_blank" rel="noopener noreffer">这一次，彻底搞懂SparseArray实现原理 - zhangpan&rsquo;s blog 👍</a></p>
+<p><a href="https://juejin.cn/post/6844903442901630983" target="_blank" rel="noopener noreffer">SparseArray 的使用及实现原理 - 掘金</a></p>
+<p><a href="https://juejin.cn/post/6844903760548855816" target="_blank" rel="noopener noreffer">SparseArray详解及源码简析 - 掘金</a></p>
+<p><a href="https://blog.csdn.net/weixin_40299948/article/details/99889024" target="_blank" rel="noopener noreffer">Android轻量级数据SparseArray详解_楠枫的博客-CSDN博客</a></p>
+<h2 id="常见问题">常见问题</h2>
+<div class="details admonition tip open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-lightbulb fa-fw"></i>提示<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">下面是一些常见的问题，可以先尝试的先自我回答一下，点击题目即可查看答案。</div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>什么是SparseArray？<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><ol>
+<li>以键值对形式进行存储，基于分查找,因此查找的时间复杂度为<code>O(LogN)</code>;</li>
+<li>由于SparseArray中Key存储的是数组形式,因此可以直接以<code>int作为Key</code>。避免了HashMap的装箱拆箱操作,性能更高且int的存储开销远远小于Integer;</li>
+<li>采用了<code>延迟删除的机制</code>(重要）</li>
+</ol>
+</div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>SparseArray都是在时候删除数据<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><ul>
+<li>put、size、index、append</li>
+</ul>
+<ol>
+<li>put的时候，记录总大小和实际数组大小不一致时</li>
+</ol>
+</div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>SparseArray默认长度是多数？<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>SparseArray默认的无参构造方法的<code>初始容量为10</code>，但是经过内部处理后变为11。初始化后mKeys和mValues都是长度为11的未赋值数组</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="nf">SparseArray</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">(</span><span class="n">10</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="nf">SparseArray</span><span class="o">(</span><span class="kt">int</span> <span class="n">initialCapacity</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">initialCapacity</span> <span class="o">==</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">mKeys</span> <span class="o">=</span> <span class="n">EmptyArray</span><span class="o">.</span><span class="na">INT</span><span class="o">;</span>
+        <span class="n">mValues</span> <span class="o">=</span> <span class="n">EmptyArray</span><span class="o">.</span><span class="na">OBJECT</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="n">mValues</span> <span class="o">=</span> <span class="n">ArrayUtils</span><span class="o">.</span><span class="na">newUnpaddedObjectArray</span><span class="o">(</span><span class="n">initialCapacity</span><span class="o">);</span>
+        <span class="n">mKeys</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">mValues</span><span class="o">.</span><span class="na">length</span><span class="o">];</span>
+    <span class="o">}</span>
+    <span class="n">mSize</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div></div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>SparseArray最大容量？每次扩容多少？<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">SparseArray并不像HashMap一样定义有最大容量是多少，最大可以达到Integer.MAX_VALUE，可能会报oom。
+每次扩容时如果当前容量<code>小于5则扩容是8</code>，否则原容量的<code>2倍</code>，看put原理时会知道为什么。</div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>SparseArray get的原理是？<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>因为SparseArray采用的是<code>两个一维数组</code>分别存储键和值，所以根据key找到下标，就可以使用该下标取出对应的值。其中找到<code>key对应的下标采用的是二分法</code>。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="n">E</span> <span class="nf">get</span><span class="o">(</span><span class="kt">int</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">get</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="n">E</span> <span class="nf">get</span><span class="o">(</span><span class="kt">int</span> <span class="n">key</span><span class="o">,</span> <span class="n">E</span> <span class="n">valueIfKeyNotFound</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//通过二分法找在mkeys数组中找到匹配的key的下标
+</span><span class="c1"></span>    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">ContainerHelpers</span><span class="o">.</span><span class="na">binarySearch</span><span class="o">(</span><span class="n">mKeys</span><span class="o">,</span> <span class="n">mSize</span><span class="o">,</span> <span class="n">key</span><span class="o">);</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">0</span> <span class="o">||</span> <span class="n">mValues</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="n">DELETED</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//如果没找到对应的值，则返回默认值null
+</span><span class="c1"></span>        <span class="k">return</span> <span class="n">valueIfKeyNotFound</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="c1">//返回找到匹配的值
+</span><span class="c1"></span>        <span class="k">return</span> <span class="o">(</span><span class="n">E</span><span class="o">)</span> <span class="n">mValues</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div></div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>SparseArray put的原理是？<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><ol>
+<li>通过二分法找出key的下标，判断是否已经存在要添加的key，如果找到直接替换对应的value</li>
+<li>如果不存在要添加的key，且容量充足，直接添加</li>
+<li>如果不存在要添加的key，则分别对存储键和值的两个数组进行扩容并添加元素</li>
+</ol>
+<p>透过put的操作可以得到的信息有：</p>
+<ol>
+<li>SparseArray是允许插入value为null的情况，因为key是int类型，所以不存在key为null的情况</li>
+<li>SparseArray添加元素时key是确保是有序的，是按key的大小进行排序的，因为其采用的二分法现在找到对应key对应的下标</li>
+<li>SpareseArray默认每次扩容是原容量的2倍（特殊情况如果当前容量小5则扩容到8）</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">put</span><span class="o">(</span><span class="kt">int</span> <span class="n">key</span><span class="o">,</span> <span class="n">E</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//通过二分法找到key所在的下标
+</span><span class="c1"></span>    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">ContainerHelpers</span><span class="o">.</span><span class="na">binarySearch</span><span class="o">(</span><span class="n">mKeys</span><span class="o">,</span> <span class="n">mSize</span><span class="o">,</span> <span class="n">key</span><span class="o">);</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">&gt;=</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//如果i &gt;= 0 代表当前以及存在key及其对应的值，则直接替换value即可
+</span><span class="c1"></span>        <span class="n">mValues</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="c1">//如果i &lt; 0 代表当前并不存在key，意思就是添加新的键值对
+</span><span class="c1"></span>        <span class="c1">// i 取反操作，得到要添加的下标，为什么取反？后面进行分析会进行讲解
+</span><span class="c1"></span>        <span class="n">i</span> <span class="o">=</span> <span class="o">~</span><span class="n">i</span><span class="o">;</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">mSize</span> <span class="o">&amp;&amp;</span> <span class="n">mValues</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="n">DELETED</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">//当前容量充足，直接添加即可
+</span><span class="c1"></span>            <span class="n">mKeys</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">key</span><span class="o">;</span>
+            <span class="n">mValues</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">mGarbage</span> <span class="o">&amp;&amp;</span> <span class="n">mSize</span> <span class="o">&gt;=</span> <span class="n">mKeys</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">//当前容量不足，进行回收操作
+</span><span class="c1"></span>            <span class="n">gc</span><span class="o">();</span>
+
+            <span class="c1">// Search again because indices may have changed.
+</span><span class="c1"></span>            <span class="c1">//因为进行回收操作，需要重新使用获取要添加的下标
+</span><span class="c1"></span>            <span class="n">i</span> <span class="o">=</span> <span class="o">~</span><span class="n">ContainerHelpers</span><span class="o">.</span><span class="na">binarySearch</span><span class="o">(</span><span class="n">mKeys</span><span class="o">,</span> <span class="n">mSize</span><span class="o">,</span> <span class="n">key</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="c1">//在存储按键数组中下标为i，添加新键为key
+</span><span class="c1"></span>        <span class="n">mKeys</span> <span class="o">=</span> <span class="n">GrowingArrayUtils</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="n">mKeys</span><span class="o">,</span> <span class="n">mSize</span><span class="o">,</span> <span class="n">i</span><span class="o">,</span> <span class="n">key</span><span class="o">);</span>
+        <span class="c1">//在存储值数组中下标为i，添加新值为value
+</span><span class="c1"></span>        <span class="n">mValues</span> <span class="o">=</span> <span class="n">GrowingArrayUtils</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="n">mValues</span><span class="o">,</span> <span class="n">mSize</span><span class="o">,</span> <span class="n">i</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
+        <span class="c1">//真实数据个数加1
+</span><span class="c1"></span>        <span class="n">mSize</span><span class="o">++;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+
+<span class="c1">//GrowingArrayUtils.java
+</span><span class="c1"></span><span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">T</span><span class="o">[]</span> <span class="nf">insert</span><span class="o">(</span><span class="n">T</span><span class="o">[]</span> <span class="n">array</span><span class="o">,</span> <span class="kt">int</span> <span class="n">currentSize</span><span class="o">,</span> <span class="kt">int</span> <span class="n">index</span><span class="o">,</span> <span class="n">T</span> <span class="n">element</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">assert</span> <span class="n">currentSize</span> <span class="o">&lt;=</span> <span class="n">array</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">currentSize</span> <span class="o">+</span> <span class="n">1</span> <span class="o">&lt;=</span> <span class="n">array</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">//如果当前数组容量充足，先将当前下标index往后移动
+</span><span class="c1"></span>        <span class="n">System</span><span class="o">.</span><span class="na">arraycopy</span><span class="o">(</span><span class="n">array</span><span class="o">,</span> <span class="n">index</span><span class="o">,</span> <span class="n">array</span><span class="o">,</span> <span class="n">index</span> <span class="o">+</span> <span class="n">1</span><span class="o">,</span> <span class="n">currentSize</span> <span class="o">-</span> <span class="n">index</span><span class="o">);</span>
+        <span class="c1">//在将要添加的元素放到下标为index的地方
+</span><span class="c1"></span>        <span class="n">array</span><span class="o">[</span><span class="n">index</span><span class="o">]</span> <span class="o">=</span> <span class="n">element</span><span class="o">;</span>
+        <span class="k">return</span> <span class="n">array</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">//如果容量不足，先进行扩容生成新的数组newArray
+</span><span class="c1"></span>    <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">&#34;unchecked&#34;</span><span class="o">)</span>
+    <span class="n">T</span><span class="o">[]</span> <span class="n">newArray</span> <span class="o">=</span> <span class="n">ArrayUtils</span><span class="o">.</span><span class="na">newUnpaddedArray</span><span class="o">((</span><span class="n">Class</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;)</span><span class="n">array</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getComponentType</span><span class="o">(),</span>
+            <span class="n">growSize</span><span class="o">(</span><span class="n">currentSize</span><span class="o">));</span>
+    <span class="c1">//将原数组中index个元素拷贝到新数组中
+</span><span class="c1"></span>    <span class="n">System</span><span class="o">.</span><span class="na">arraycopy</span><span class="o">(</span><span class="n">array</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">newArray</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">index</span><span class="o">);</span>
+    <span class="c1">//将要添加的元素添加到index位置
+</span><span class="c1"></span>    <span class="n">newArray</span><span class="o">[</span><span class="n">index</span><span class="o">]</span> <span class="o">=</span> <span class="n">element</span><span class="o">;</span>
+    <span class="c1">//将原数组中index+1之后的元素拷贝到新数组中
+</span><span class="c1"></span>    <span class="n">System</span><span class="o">.</span><span class="na">arraycopy</span><span class="o">(</span><span class="n">array</span><span class="o">,</span> <span class="n">index</span><span class="o">,</span> <span class="n">newArray</span><span class="o">,</span> <span class="n">index</span> <span class="o">+</span> <span class="n">1</span><span class="o">,</span> <span class="n">array</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="n">index</span><span class="o">);</span>
+    <span class="k">return</span> <span class="n">newArray</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">growSize</span><span class="o">(</span><span class="kt">int</span> <span class="n">currentSize</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//扩容计算规则，当前容量小于5返回8；否则返回2倍的容量
+</span><span class="c1"></span>    <span class="k">return</span> <span class="n">currentSize</span> <span class="o">&lt;=</span> <span class="n">4</span> <span class="o">?</span> <span class="n">8</span> <span class="o">:</span> <span class="n">currentSize</span> <span class="o">*</span> <span class="n">2</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div></div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>SparseArray的扩容机制？<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><ol>
+<li>SparseArray占用的内存比HashMap更少</li>
+<li>SparseArray的速度比HashMap更慢，SparseArray是O(LogN)(二分查找)，HashMap是O(1)</li>
+<li>SparseArray的Key只能是Int，HashMap的Key可以为Object</li>
+<li>SparseArray删除是懒删除，HashMap是直接删除</li>
+</ol>
+</div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>SparseArray和HashMap的区别？<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><ol>
+<li>SparseArray占用的内存比HashMap更少</li>
+<li>SparseArray的速度比HashMap更慢，SparseArray是O(LogN)(二分查找)，HashMap是O(1)</li>
+<li>SparseArray的Key只能是Int，HashMap的Key可以为Object</li>
+<li>SparseArray删除是懒删除，HashMap是直接删除</li>
+</ol>
+</div>
+        </div>
+    </div>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-11-02</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/AndroidInterview/sparse_array/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/AndroidInterview/tags/%E5%AE%89%E5%8D%93/">安卓</a>,&nbsp;<a href="/AndroidInterview/tags/sparsearray/">SparseArray</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/AndroidInterview/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/AndroidInterview/binder/" class="prev" rel="prev" title="Android Binder 知识点总结"><i class="fas fa-angle-left fa-fw"></i>Android Binder 知识点总结</a>
+            <a href="/AndroidInterview/lru_cache/" class="next" rel="next" title="LruCache 知识点总结">LruCache 知识点总结<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.88.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/AndroidInterview/" target="_blank">Sollyu</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{}};</script><script type="text/javascript" src="/AndroidInterview/js/theme.min.69ac882c686e101963f9cd3dc6167cee800004e4e9f40dae6f6fbeb3b03fb81ead782f98cc6e6eeec42b70a1b7047c7902e8f0ba3171660e2c2dc59d62965c7a.js" integrity="sha512-aayILGhuEBlj&#43;c09xhZ87oAABOTp9A2ub2&#43;&#43;s7A/uB6teC&#43;YzG5u7sQrcKG3BHx5AujwujFxZg4sLcWdYpZceg=="></script></body>
+</html>

@@ -3,13 +3,15 @@
 
 ## 优质文章
 
-[👍 Android异步通信：图文详解Handler工作原理_Carson带你学Android-CSDN博客](https://blog.csdn.net/carson_ho/article/details/80175876)
+[Android异步通信：图文详解Handler工作原理_Carson带你学Android-CSDN博客 👍](https://blog.csdn.net/carson_ho/article/details/80175876)
 
 [Android Handler 机制（一）：Handler 运行机制完整梳理 - 灰色飘零 - 博客园](https://www.cnblogs.com/renhui/p/12857876.html)
 
 [Android Handler机制 - MessageQueue如何处理消息_未子涵的博客-CSDN博客](https://blog.csdn.net/lovelease/article/details/81988696)
 
 [Android应用程序消息处理机制 - SegmentFault 思否](https://segmentfault.com/a/1190000002982318)
+
+[源码解读epoll内核机制 - Gityuan博客 | 袁辉辉的技术博客](http://gityuan.com/2019/01/06/linux-epoll/)
 
 ## 常见问题
 
