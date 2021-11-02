@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>View - 标签 - 安卓面试复习宝典</title>
-        <link>https://example.com/tags/view/</link>
+        <link>https://sollyu.github.io/AndroidInterview/tags/view/</link>
         <description>View - 标签 - 安卓面试复习宝典</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>sollyu@qq.com (Sollyu)</managingEditor>
-            <webMaster>sollyu@qq.com (Sollyu)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 01 Nov 2021 16:16:31 &#43;0800</lastBuildDate><atom:link href="https://example.com/tags/view/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>sollyu@qq.com (Sollyu)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 01 Nov 2021 16:16:31 &#43;0800</lastBuildDate><atom:link href="https://sollyu.github.io/AndroidInterview/tags/view/" rel="self" type="application/rss+xml" /><item>
     <title>AndroidView绘制流程知识点总结</title>
-    <link>https://example.com/view/</link>
+    <link>https://sollyu.github.io/AndroidInterview/view/</link>
     <pubDate>Mon, 01 Nov 2021 16:16:31 &#43;0800</pubDate>
     <author>作者</author>
-    <guid>https://example.com/view/</guid>
+    <guid>https://sollyu.github.io/AndroidInterview/view/</guid>
     <description><![CDATA[优质文章 Android View的绘制流程知识点总结 - 知乎 Android View的绘制流程 - 简书 Android View绘制三大流程探索及常见问题_梦工厂-CSDN博客 Android View知]]></description>
 </item></channel>
 </rss>

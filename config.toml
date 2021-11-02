@@ -1,4 +1,4 @@
-baseURL = "https://sollyu.github.io/AndroidInterview/"
+baseURL = "https://sollyu.github.io/AndroidInterview"
 defaultContentLanguage = "zh-cn"
 theme = "LoveIt"
 title = "安卓面试复习宝典"
@@ -6,6 +6,9 @@ title = "安卓面试复习宝典"
 enableRobotsTXT = true
 enableGitInfo = false
 enableEmoji = true
+
+relativeURLs = true
+
 
 [languages]
   [languages.zh-cn]
