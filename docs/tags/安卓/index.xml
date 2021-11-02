@@ -1,22 +1,22 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>安卓 - 标签 - 安卓面试复习宝典</title>
-        <link>https://sollyu.github.io/AndroidInterview/tags/%E5%AE%89%E5%8D%93/</link>
+        <link>/AndroidInterview/tags/%E5%AE%89%E5%8D%93.html</link>
         <description>安卓 - 标签 - 安卓面试复习宝典</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>sollyu@qq.com (Sollyu)</managingEditor>
-            <webMaster>sollyu@qq.com (Sollyu)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 01 Nov 2021 16:16:31 &#43;0800</lastBuildDate><atom:link href="https://sollyu.github.io/AndroidInterview/tags/%E5%AE%89%E5%8D%93/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>sollyu@qq.com (Sollyu)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 01 Nov 2021 16:16:31 &#43;0800</lastBuildDate><atom:link href="/AndroidInterview/tags/%E5%AE%89%E5%8D%93.html" rel="self" type="application/rss+xml" /><item>
     <title>AndroidHandler知识点总结</title>
-    <link>https://sollyu.github.io/AndroidInterview/handler/</link>
+    <link>/AndroidInterview/handler.html</link>
     <pubDate>Mon, 01 Nov 2021 16:16:31 &#43;0800</pubDate>
     <author>作者</author>
-    <guid>https://sollyu.github.io/AndroidInterview/handler/</guid>
+    <guid>/AndroidInterview/handler.html</guid>
     <description><![CDATA[优质文章 👍 Android异步通信：图文详解Handler工作原理_Carson带你学Android-CSDN博客 Android Handler 机制（一）：Handle]]></description>
 </item><item>
     <title>AndroidView绘制流程知识点总结</title>
-    <link>https://sollyu.github.io/AndroidInterview/view/</link>
+    <link>/AndroidInterview/view.html</link>
     <pubDate>Mon, 01 Nov 2021 16:16:31 &#43;0800</pubDate>
     <author>作者</author>
-    <guid>https://sollyu.github.io/AndroidInterview/view/</guid>
+    <guid>/AndroidInterview/view.html</guid>
     <description><![CDATA[优质文章 Android View的绘制流程知识点总结 - 知乎 Android View的绘制流程 - 简书 Android View绘制三大流程探索及常见问题_梦工厂-CSDN博客 Android View知]]></description>
 </item></channel>
 </rss>
