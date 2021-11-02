@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Android Binder 知识点总结 - 安卓面试复习宝典</title><meta name="Description" content="关于 LoveIt 主题"><meta property="og:title" content="Android Binder 知识点总结" />
+<meta property="og:description" content="优质文章 写给 Android 应用工程师的 Binder 原理剖析 - 知乎 👍 彻底理解Android Binder通信架构 - Gityuan博客 | 袁辉辉的技术博客 👍 Binder系" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/AndroidInterview/binder/" /><meta property="og:image" content="/AndroidInterview/binder/featured-image.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-11-02T11:09:32+08:00" />
+<meta property="article:modified_time" content="2021-11-02T11:09:32+08:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="/AndroidInterview/binder/featured-image.png"/>
+<meta name="twitter:title" content="Android Binder 知识点总结"/>
+<meta name="twitter:description" content="优质文章 写给 Android 应用工程师的 Binder 原理剖析 - 知乎 👍 彻底理解Android Binder通信架构 - Gityuan博客 | 袁辉辉的技术博客 👍 Binder系"/>
+<meta name="application-name" content="LoveIt">
+<meta name="apple-mobile-web-app-title" content="LoveIt"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="/AndroidInterview/binder/" /><link rel="prev" href="/AndroidInterview/handler/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/AndroidInterview/css/style.min.89b621a9bf174f6453c265bdcf5f2ffe8feb8bf3555ce4432c220058d367643a9e0aae3b0c211fc83b05a5bdc47d2ce47d74361d8a2becb6f76a7df35e3c3def.css" integrity="sha512-ibYhqb8XT2RTwmW9z18v/o/ri/NVXORDLCIAWNNnZDqeCq47DCEfyDsFpb3EfSzkfXQ2HYor7Lb3an3zXjw97w=="><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Android Binder 知识点总结",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "\/AndroidInterview\/binder\/"
+        },"image": [{
+                            "@type": "ImageObject",
+                            "url": "\/AndroidInterview\/binder\/featured-image.png",
+                            "width":  1920 ,
+                            "height":  494 
+                        }],"genre": "posts","keywords": "安卓, Binder","wordcount":  2914 ,
+        "url": "\/AndroidInterview\/binder\/","datePublished": "2021-11-02T11:09:32+08:00","dateModified": "2021-11-02T11:09:32+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "Sollyu"},"author": {
+                "@type": "Person",
+                "name": "Sollyu"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/AndroidInterview/" title="安卓面试复习宝典"><span class="header-title-pre"><i class='fab fa-android fa-fw' style='color:green'></i></span>宝典</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/AndroidInterview/posts/"> 所有文章 </a><a class="menu-item" href="/AndroidInterview/tags/"> 标签 </a><a class="menu-item" href="/AndroidInterview/categories/"> 分类 </a><a class="menu-item" href="https://github.com/sollyu/AndroidInterview" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/AndroidInterview/" title="安卓面试复习宝典"><span class="header-title-pre"><i class='fab fa-android fa-fw' style='color:green'></i></span>宝典</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/AndroidInterview/posts/" title="">所有文章</a><a class="menu-item" href="/AndroidInterview/tags/" title="">标签</a><a class="menu-item" href="/AndroidInterview/categories/" title="">分类</a><a class="menu-item" href="https://github.com/sollyu/AndroidInterview" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">目录</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Android Binder 知识点总结</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="https://github.com/sollyu" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Sollyu</a></span>&nbsp;<span class="post-category">收录于 <a href="/AndroidInterview/categories/%E5%AE%89%E5%8D%93/"><i class="far fa-folder fa-fw"></i>安卓</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-11-02">2021-11-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2914 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/AndroidInterview/svg/loading.min.svg"
+        data-src="/AndroidInterview/binder/featured-image.png"
+        data-srcset="/AndroidInterview/binder/featured-image.png, /AndroidInterview/binder/featured-image.png 1.5x, /AndroidInterview/binder/featured-image.png 2x"
+        data-sizes="auto"
+        alt="/AndroidInterview/binder/featured-image.png"
+        title="/AndroidInterview/binder/featured-image.png" /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>目录</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#优质文章">优质文章</a></li>
+    <li><a href="#常见问题">常见问题</a></li>
+    <li><a href="#复习图片">复习图片</a></li>
+    <li><a href="#视频资料">视频资料</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="优质文章">优质文章</h2>
+<p><a href="https://zhuanlan.zhihu.com/p/35519585" target="_blank" rel="noopener noreffer">写给 Android 应用工程师的 Binder 原理剖析 - 知乎 👍</a></p>
+<p><a href="http://gityuan.com/2016/09/04/binder-start-service/" target="_blank" rel="noopener noreffer">彻底理解Android Binder通信架构 - Gityuan博客 | 袁辉辉的技术博客 👍</a></p>
+<p><a href="http://gityuan.com/2015/10/31/binder-prepare/" target="_blank" rel="noopener noreffer">Binder系列—开篇 - Gityuan博客 | 袁辉辉的技术博客 👍</a></p>
+<p><a href="https://www.jianshu.com/p/4878e9834d1b" target="_blank" rel="noopener noreffer">Binder机制面试题 - 简书</a></p>
+<p><a href="https://blog.csdn.net/YoungOne2333/article/details/105383128" target="_blank" rel="noopener noreffer">Android中高级面试题持续助攻：图解Android Binder机制_YoungOne2333的博客-CSDN博客</a></p>
+<h2 id="常见问题">常见问题</h2>
+<div class="details admonition tip open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-lightbulb fa-fw"></i>提示<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">下面是一些常见的问题，可以先尝试的先自我回答一下，点击题目即可查看答案。</div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>什么是 Binder？<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><ul>
+<li>直观来说，Binder 是 Android 中的一个类，它继承了 IBinder 接口</li>
+<li>从 IPC 角度来说，Binder 是 Android 中的<code>一种跨进程通信方式</code>，Binder 还可以理解为一种虚拟的物理设备，它的设备驱动是/dev/binder，<code>该通信方式在 linux 中没有</code>。</li>
+<li>从 Android Framework 角度来说，Binder 是 ServiceManager 连接各种 Manager（ActivityManager、WindowManager，etc）和相应 ManagerService 的<code>桥梁</code>。</li>
+<li>从 Android 应用层来说，Binder 是<code>客户端和服务端进行通信的媒介</code>，当你 bindService 的时候，服务端会返回一个包含了服务端业务调用的 Binder 对象，通过这个 Binder 对象，客户端就可以获取服务端提供的服务或者数据，这里的服务包括普通服务和基于 AIDL 的服务。</li>
+</ul>
+</div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>为什么要使用 Binder？<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>性能：移动设备中如果广泛的使用跨进程通信机制肯定会对通信机制提出严格的要求，而 Binder 相比较传统的进程通信方式更加的高效。</p>
+<p>安全：由于传统进程通信方式<strong>没有对通信的双方和身方做出严格的验证</strong>，只有上层协议才会去架构，如 socket 连接的 IP 地址可以人为的伪造。
+而 Binder 身份校验也是 android 权限模式的基础。</p>
+</div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>Binder的线程管理？<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>每个Binder的Server进程<code>会创建很多线程</code>来处理Binder请求，可以简单的理解为创建了一个Binder的线程池吧（虽然实际上并不完全是这样简单的线程管理方式），而真正管理这些线程并不是由这个Server端来管理的，而是由Binder驱动进行管理的。</p>
+<p>一个进程的 Binder 线程数<code>默认最大是 16</code>，超过的请求会被<code>阻塞</code>等待空闲的 Binder 线程。理解这一点的话，你做进程间通信时处理并发问题就会有一个底。
+比如使用 ContentProvider 时（又一个使用 Binder 机制的组件），你就很清楚它的 CRUD（创建、检索、更新和删除）方法只能同时有 16 个线程在跑。</p>
+</div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>Binder 的工作流程<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><ol>
+<li>客户端首先获取服务器端的代理对象。所谓的代理对象实际上就是在客户端建立一个服务端的“引用”，该代理对象具有服务端的功能，使其在客户端访问服务端的方法就像访问本地方法一样。</li>
+<li>客户端通过调用服务器代理对象的方式向服务器端发送请求。</li>
+<li>代理对象将用户请求通过 Binder 驱动发送到服务器进程。</li>
+<li>服务器进程处理用户请求，并通过 Binder 驱动返回处理结果给客户端的服务器代理对象。</li>
+<li>客户端收到服务端的返回结果。</li>
+</ol>
+</div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>Binder 有什么优势？<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>性能方面：</p>
+<ul>
+<li>共享内存 0 次数据拷贝</li>
+<li>Binder 1 次数据拷贝</li>
+<li>Socket/管道/消息队列 2 次数据拷贝</li>
+</ul>
+<p>稳定性方面：</p>
+<ul>
+<li>Binder：基于 C/S 架构，客户端（Client）有什么需求就丢给服务端（Server）去完成，架构清晰、职责明确又相互独立，自然稳定性更好</li>
+<li>共享内存：虽然无需拷贝，但是控制复杂，难以使用</li>
+<li>从稳定性的角度讲，Binder 机制是优于内存共享的。</li>
+</ul>
+<p>安全性方面：</p>
+<ul>
+<li>传统的 IPC 没有任何安全措施，安全依赖上层协议来确保。</li>
+<li>传统的 IPC 方法无法获得对方可靠的进程用户 ID/进程 UI（UID/PID），从而无法鉴别对方身份。</li>
+<li>传统的 IPC 只能由用户在数据包中填入 UID/PID，容易被恶意程序利用。</li>
+<li>传统的 IPC 访问接入点是开放的，无法阻止恶意程序通过猜测接收方地址获得连接。</li>
+<li>Binder 既支持实名 Binder，又支持匿名 Binder，安全性高。</li>
+</ul>
+</div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>Binder 是如何做到一次拷贝的？<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>Binder 借助了内存映射的方法，在内核空间和接收方用户空间的数据缓存区之间做了一层内存映射，就相当于直接拷贝到了接收方用户空间的数据缓存区，从而减少了一次数据拷贝。</p>
+<p>主要是因为 Linux 是使用的虚拟内存寻址方式，它有如下特性：</p>
+<ul>
+<li>用户空间的虚拟内存地址是映射到物理内存中的</li>
+<li>对虚拟内存的读写实际上是对物理内存的读写，这个过程就是内存映射</li>
+<li>这个内存映射过程是通过系统调用 mmap()来实现的</li>
+</ul>
+</div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>Binder 机制是如何跨进程的？<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>Binder 驱动</p>
+<ul>
+<li>在内核空间创建一块接收缓存区，</li>
+<li>实现地址映射：将内核缓存区、接收进程用户空间映射到同一接收缓存区
+发送进程通过系统调用（copy_from_user）将数据发送到内核缓存区。
+由于内核缓存区和接收进程用户空间存在映射关系，故相当于也发送了接收进程的用户空间，实现了跨进程通信。</li>
+</ul>
+</div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>Bundle传递数据为什么需要序列化？<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>序列化，表示将一个对象转换成可存储或可传输的状态。序列化的原因基本三种情况：</p>
+<ul>
+<li>永久性保存对象，保存对象的字节序列到本地文件中；</li>
+<li>对象在网络中传递；</li>
+<li>对象在IPC间传递。</li>
+</ul>
+</div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>为什么 Intent 不能传递大数据？<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>Intent 携带信息的大小其实是受 Binder 限制。
+数据以 Parcel 对象的形式存放在 Binder 传递缓存中。
+如果数据或返回值比传递 buffer 大，则此次传递调用失败并抛出 TransactionTooLargeException 异常。</p>
+<p>Binder 传递缓存有一个限定大小，通常是 <code>1Mb</code>。
+但同一个进程中所有的传输共享缓存空间。
+多个地方在进行传输时，即时它们各自传输的数据不超出大小限制，TransactionTooLargeException 异常也可能会被抛出。
+在使用 Intent 传递数据时，<code>1Mb 并不是安全上限</code>。因为 Binder 中可能正在处理其它的传输工作。不同的机型和系统版本，这个上限值也可能会不同。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="c1">// Binder本身就是为了进程间频繁而灵活的通信所设计的，并不是为了拷贝大数据而使用的
+</span><span class="c1"></span><span class="cp">#define BINDER_VM_SIZE ((1*1024*1024) - (4096 *2))
+</span></code></pre></td></tr></table>
+</div>
+</div></div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>Binder IPC 实现原理<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>Binder IPC 正是基于内存映射（mmap）来实现的，但是 mmap() 通常是用在有物理介质的文件系统上的。</p>
+<p>比如进程中的用户区域是不能直接和物理设备打交道的，如果想要把磁盘上的数据读取到进程的用户区域，需要两次拷贝（磁盘–&gt;内核空间–&gt;用户空间）；</p>
+<p>通常在这种场景下 mmap() 就能发挥作用，通过在物理介质和用户空间之间建立映射，减少数据的拷贝次数，用内存读写取代 I/O 读写，提高文件读取效率。</p>
+<p>而 Binder 并<code>不存在物理介质</code>，因此 Binder 驱动使用 mmap() 并不是为了在物理介质和用户空间之间建立映射，而是用来<code>在内核空间创建数据接收的缓存空间</code>。</p>
+<p>一次完整的 Binder IPC 通信过程通常是这样：</p>
+<ul>
+<li>首先 Binder 驱动在内核空间创建一个数据接收缓存区；</li>
+<li>接着在内核空间开辟一块内核缓存区，建立内核缓存区和内核中数据接收缓存区之间的映射关系，以及内核中数据接收缓存区和接收进程用户空间地址的映射关系；</li>
+<li>发送方进程通过系统调用 copyfromuser() 将数据 copy 到内核中的内核缓存区，由于内核缓存区和接收进程的用户空间存在内存映射，因此也就相当于把数据发送到了接收进程的用户空间，这样便完成了一次进程间的通信。</li>
+</ul>
+</div>
+        </div>
+    </div>
+<div class="details admonition question">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-question-circle fa-fw"></i>Binder的内存拷贝过程<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>相比其他的IPC通信，比如消息机制、共享内存、管道、信号量等，Binder<code>仅需一次内存拷贝</code>，即可让目标进程读取到更新数据，同共享内存一样相当高效，其他的IPC通信机制大多需要2次内存拷贝。</p>
+<p>Binder内存拷贝的原理为：A为Binder客户端，在IPC调用前，需将其用户空间的数据拷贝到Binder驱动的内核空间，由于进程B在打开Binder设备(/dev/binder)时，已将Binder驱动的内核空间映射(mmap)到自己的进程空间，所以进程B可以直接看到Binder驱动内核空间的内容改动。</p>
+</div>
+        </div>
+    </div>
+<h2 id="复习图片">复习图片</h2>
+<p><img
+        class="lazyload"
+        src="/AndroidInterview/svg/loading.min.svg"
+        data-src="index.assets/v2-3714e93ca1f55c502e48c7baff4dc4af_720w.jpg"
+        data-srcset="/AndroidInterview/binder/index.assets/v2-3714e93ca1f55c502e48c7baff4dc4af_720w.jpg, index.assets/v2-3714e93ca1f55c502e48c7baff4dc4af_720w.jpg 1.5x, /AndroidInterview/binder/index.assets/v2-3714e93ca1f55c502e48c7baff4dc4af_720w.jpg 2x"
+        data-sizes="auto"
+        alt="/AndroidInterview/binder/index.assets/v2-3714e93ca1f55c502e48c7baff4dc4af_720w.jpg"
+        title="v2-3714e93ca1f55c502e48c7baff4dc4af_720w" /></p>
+<h2 id="视频资料">视频资料</h2>
+<div class="bilibili"><iframe src="//player.bilibili.com/player.html?bvid=BV19a4y177ec&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe></div>
+
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-11-02</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/AndroidInterview/binder/index.md" target="_blank">阅读原始文档</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/AndroidInterview/tags/%E5%AE%89%E5%8D%93/">安卓</a>,&nbsp;<a href="/AndroidInterview/tags/binder/">Binder</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/AndroidInterview/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/AndroidInterview/handler/" class="prev" rel="prev" title="Android Handler 知识点总结"><i class="fas fa-angle-left fa-fw"></i>Android Handler 知识点总结</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.88.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/AndroidInterview/" target="_blank">Sollyu</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{}};</script><script type="text/javascript" src="/AndroidInterview/js/theme.min.69ac882c686e101963f9cd3dc6167cee800004e4e9f40dae6f6fbeb3b03fb81ead782f98cc6e6eeec42b70a1b7047c7902e8f0ba3171660e2c2dc59d62965c7a.js" integrity="sha512-aayILGhuEBlj&#43;c09xhZ87oAABOTp9A2ub2&#43;&#43;s7A/uB6teC&#43;YzG5u7sQrcKG3BHx5AujwujFxZg4sLcWdYpZceg=="></script></body>
+</html>

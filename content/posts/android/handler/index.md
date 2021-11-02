@@ -1,11 +1,10 @@
 ---
-title: "AndroidHandler知识点总结"
+title: "Android Handler 知识点总结"
 date: 2021-11-01T16:16:31+08:00
 lastmod: 2021-11-01T16:16:31+08:00
 draft: false
 author: "Sollyu"
 authorLink: "https://github.com/sollyu"
-description: "Hugo 和 LoveIt 中的 Emoji 的用法指南."
 resources:
 - name: "featured-image"
   src: "featured-image.png"

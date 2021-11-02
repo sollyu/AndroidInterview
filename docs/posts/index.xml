@@ -4,15 +4,22 @@
         <link>/AndroidInterview/posts/</link>
         <description>所有文章 | 安卓面试复习宝典</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>sollyu@qq.com (Sollyu)</managingEditor>
-            <webMaster>sollyu@qq.com (Sollyu)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 01 Nov 2021 16:16:31 &#43;0800</lastBuildDate><atom:link href="/AndroidInterview/posts/" rel="self" type="application/rss+xml" /><item>
-    <title>AndroidHandler知识点总结</title>
+            <webMaster>sollyu@qq.com (Sollyu)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Tue, 02 Nov 2021 11:09:32 &#43;0800</lastBuildDate><atom:link href="/AndroidInterview/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Android Binder 知识点总结</title>
+    <link>/AndroidInterview/binder/</link>
+    <pubDate>Tue, 02 Nov 2021 11:09:32 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>/AndroidInterview/binder/</guid>
+    <description><![CDATA[优质文章 写给 Android 应用工程师的 Binder 原理剖析 - 知乎 👍 彻底理解Android Binder通信架构 - Gityuan博客 | 袁辉辉的技术博客 👍 Binder系]]></description>
+</item><item>
+    <title>Android Handler 知识点总结</title>
     <link>/AndroidInterview/handler/</link>
     <pubDate>Mon, 01 Nov 2021 16:16:31 &#43;0800</pubDate>
     <author>作者</author>
     <guid>/AndroidInterview/handler/</guid>
     <description><![CDATA[优质文章 👍 Android异步通信：图文详解Handler工作原理_Carson带你学Android-CSDN博客 Android Handler 机制（一）：Handle]]></description>
 </item><item>
-    <title>AndroidView绘制流程知识点总结</title>
+    <title>Android View 绘制流程知识点总结</title>
     <link>/AndroidInterview/view/</link>
     <pubDate>Mon, 01 Nov 2021 16:16:31 &#43;0800</pubDate>
     <author>作者</author>

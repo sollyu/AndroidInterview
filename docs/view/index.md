@@ -1,4 +1,4 @@
-# AndroidView绘制流程知识点总结
+# Android View 绘制流程知识点总结
 
 
 ## 优质文章
