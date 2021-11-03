@@ -69,7 +69,7 @@ enableEmoji = true
           gravatarEmail = ""
           avatarURL = "/images/avatar.png"
           title = ""
-          subtitle = "帮您快速的回温安卓面试相关的内容"
+          subtitle = "帮您快速回温安卓面试相关的内容"
           typeit = true
           social = true
           disclaimer = ""
@@ -338,7 +338,7 @@ enableEmoji = true
   [params.pangu]
     enable = true
     script = "https://cdnjs.cloudflare.com/ajax/libs/pangu/4.0.7/pangu.min.js"
-  
+
 # Markup related configuration in Hugo
 # Hugo 解析文档的配置
 [markup]
