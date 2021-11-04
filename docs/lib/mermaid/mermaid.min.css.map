@@ -1,7 +1,7 @@
 {
 	"version": 3,
 	"file": "mermaid.min.css",
-	"sourceRoot": "/Users/sollyu/AndroidStudioProjects/sollyu/AndroidInterview",
+	"sourceRoot": "/Users/sollyu/AndroidStudioProjects/sollyu/AndroidInterview/source",
 	"sources": [
 		"themes/LoveIt/assets/lib/mermaid/mermaid.scss",
 		"themes/LoveIt/assets/lib/mermaid/themes/neutral/index.scss",
